@@ -37,9 +37,10 @@
 
     header h1 {
       color: #ff4d4d;
-      font-size: 32px; /* Adjusted title size */
+      font-size: 48px; /* Larger title size */
       font-weight: bold;
       text-transform: uppercase;
+      margin-bottom: 10px;
     }
 
     .header-links {
@@ -55,20 +56,22 @@
     }
 
     /* Video Section */
-    .video-container {
+    .video-container, .carousel-container {
       width: 100%;
-      max-width: 800px; /* Adjusted video size */
-      margin: 30px auto; /* Centered with dynamic spacing */
+      max-width: 800px;
+      height: 450px; /* Unified window size for video and carousel */
+      margin: 30px auto; /* Dynamic spacing */
       background-color: #000;
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
     }
 
-    video {
+    video, .carousel-slide img {
       width: 100%;
-      height: auto;
-      object-fit: contain;
+      height: 100%;
+      object-fit: contain; /* Ensures no cropping */
     }
 
     /* Video Description */
@@ -81,14 +84,6 @@
     }
 
     /* Carousel Section */
-    .carousel-container {
-      width: 100%;
-      max-width: 800px; /* Adjusted image size */
-      margin: 30px auto; /* Dynamic spacing */
-      background-color: #000;
-      overflow: hidden;
-    }
-
     .carousel-track {
       display: flex;
       transition: transform 0.5s ease-in-out;
@@ -101,16 +96,10 @@
       align-items: center;
     }
 
-    .carousel-slide img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-    }
-
     /* Carousel Description */
     .carousel-description {
       text-align: center;
-      font-size: 16px;
+      font-size: 18px;
       color: #666;
       margin-bottom: 30px;
       padding: 10px 0;
@@ -146,14 +135,14 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      border-top: 2px solid #ff4d4d; /* Solid red line at the top */
+      border-top: 2px solid #ff4d4d;
     }
   </style>
 </head>
 <body>
   <!-- Header -->
   <header>
-    <h1></h1>DRAAKULA UNTOLDII</h1>
+    <h1>DRAAKULA UNTOLDII</h1>
     <div class="header-links">
       <a href="#">Read More</a>
       <a href="#">Contact Us</a>
@@ -178,56 +167,4 @@
     <!-- Image Carousel -->
     <div class="carousel-container">
       <div class="carousel-track">
-        <div class="carousel-slide" data-description="Qreba chndeba, tynaurobs, kbens, ibrdzvis, ra chemi yle ginat meti ">
-          <img src="image1.jpg" alt="Image 1">
-        </div>
-        <div class="carousel-slide" data-description="Damaleine trawi eshmakoo">
-          <img src="image2.jpg" alt="Image 2">
-        </div>
-        <div class="carousel-slide" data-description="Daalieee, draakulaaa, traaaawiiii">
-          <img src="image3.jpg" alt="Image 3">
-        </div>
-      </div>
-      <!-- Navigation Dots -->
-      <div class="carousel-dots">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-    </div>
-
-    <!-- Carousel Description -->
-    <div class="carousel-description active" id="carousel-description">
-      Qreba chndeba, tynaurobs, kbens, ibrdzvis, ra chemi yle ginat meti
-    </div>
-  </main>
-
-  <!-- Bottom Bar -->
-  <div class="bottom-bar">
-    <p>&copy; 2024 Resist.ge. All rights reserved.</p>
-  </div>
-
-  <script>
-    const track = document.querySelector('.carousel-track');
-    const dots = document.querySelectorAll('.dot');
-    const description = document.getElementById('carousel-description');
-    const slides = document.querySelectorAll('.carousel-slide');
-
-    let index = 0;
-
-    function updateCarousel() {
-      track.style.transform = `translateX(-${index * 100}%)`;
-      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
-      const newDescription = slides[index].getAttribute('data-description');
-      description.textContent = newDescription;
-    }
-
-    function autoSlide() {
-      index = (index + 1) % slides.length;
-      updateCarousel();
-    }
-
-    setInterval(autoSlide, 7000);
-  </script>
-</body>
-</html>
+        <div class="carousel-slide" data-description="Qreba chndeba, tynaur
