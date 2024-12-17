@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For Georgia's tomorrow</title>
+  <title>For Georgia's Tomorrow</title>
   <style>
     /* General Reset */
     * {
@@ -15,7 +15,7 @@
     body {
       font-family: Arial, Helvetica, sans-serif;
       background-color: #fff; /* White background */
-      color: #ff4d4d; /* Red text for general elements */
+      color: #ff4d4d; /* Red text */
       line-height: 1.6;
       display: flex;
       flex-direction: column;
@@ -28,33 +28,29 @@
 
     /* Header */
     header {
-      background-color: #fff; /* White background */
+      background-color: #fff;
       text-align: center;
       padding: 20px 0;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      animation: slideDown 1s ease-out;
     }
 
     header h1 {
-      color: #ff4d4d; /* Red text */
+      color: #ff4d4d;
       font-size: 28px;
       font-weight: bold;
-      letter-spacing: 1px;
       text-transform: uppercase;
     }
 
-    /* Header Links */
     .header-links {
       margin-top: 10px;
     }
 
     .header-links a {
-      color: #ff4d4d; /* Red links */
+      color: #ff4d4d;
       text-decoration: none;
       margin: 0 15px;
       font-size: 16px;
       font-weight: bold;
-      transition: color 0.3s ease-in-out;
     }
 
     .header-links a:hover {
@@ -68,15 +64,22 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
-      margin: 30px 0; /* Dynamic spacing */
-      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+      margin: 30px 0;
     }
 
     video {
       width: 100%;
       height: auto;
       object-fit: contain;
+    }
+
+    /* New Description Section */
+    .video-description {
+      text-align: center;
+      color: #666; /* Grey text */
+      font-size: 18px;
+      margin: 20px auto; /* Dynamic spacing */
+      padding: 10px 20px; /* Adequate padding */
     }
 
     /* Carousel Section */
@@ -86,8 +89,7 @@
       background-color: #000;
       position: relative;
       overflow: hidden;
-      margin: 30px 0; /* Dynamic spacing */
-      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+      margin: 30px 0;
     }
 
     .carousel-track {
@@ -113,9 +115,10 @@
     .carousel-description {
       text-align: center;
       font-size: 16px;
-      color: #666; /* Grey text for descriptions */
-      background-color: #fff; /* White background */
+      color: #666;
+      background-color: #fff;
       padding: 10px 0;
+      margin-bottom: 30px;
       opacity: 0;
       transition: opacity 0.5s ease-in-out;
     }
@@ -138,23 +141,19 @@
       margin: 0 5px;
       background-color: grey;
       display: inline-block;
-      cursor: pointer;
-      transition: transform 0.3s;
     }
 
     .dot.active {
-      background-color: #ff4d4d; /* Red dot */
-      transform: scale(1.3);
+      background-color: #ff4d4d;
     }
 
     /* Bottom Bar */
     .bottom-bar {
-      background-color: #fff; /* White background */
-      color: #ff4d4d; /* Red text */
+      background-color: #fff;
+      color: #ff4d4d;
       padding: 15px 20px;
       text-align: center;
       font-size: 14px;
-      line-height: 1.6;
       position: fixed;
       bottom: 0;
       width: 100%;
@@ -165,7 +164,7 @@
 <body>
   <!-- Header -->
   <header>
-    <h1>Mobile Optimized Site</h1>
+    <h1>For Georgia's Tomorrow</h1>
     <div class="header-links">
       <a href="#">Read More</a>
       <a href="#">Contact Us</a>
@@ -182,13 +181,18 @@
       </video>
     </div>
 
+    <!-- New Description -->
+    <div class="video-description">
+      is yvelam sheizizga, magram dedistyvna gauchina suyvelas
+    </div>
+
     <!-- Image Carousel -->
     <div class="carousel-container">
       <div class="carousel-track">
         <div class="carousel-slide" data-description="Qreba chndeba, tynaurobs, kbens, ibrdzvis, ra chemi yle ginat meti ">
           <img src="image1.jpg" alt="Image 1">
         </div>
-        <div class="carousel-slide" data-description="Damaleine trawi eshmakoo ">
+        <div class="carousel-slide" data-description="Damaleine trawi eshmakoo">
           <img src="image2.jpg" alt="Image 2">
         </div>
         <div class="carousel-slide" data-description="Daalieee, draakulaaa, traaaawiiii">
@@ -204,13 +208,13 @@
     </div>
     <!-- Carousel Description -->
     <div class="carousel-description active" id="carousel-description">
-      Vampirebis deda movtyan gagvimarjos qartvelebs
+      Qreba chndeba, tynaurobs, kbens, ibrdzvis, ra chemi yle ginat meti 
     </div>
   </main>
 
   <!-- Bottom Bar -->
   <div class="bottom-bar">
-    <p>&copy; 2024 Mobile Optimized Site. All rights reserved. <br> Powered by sleek animations and responsive design.</p>
+    <p>&copy; 2024 For Georgia's Tomorrow. All rights reserved.</p>
   </div>
 
   <script>
@@ -223,9 +227,7 @@
 
     function updateCarousel() {
       track.style.transform = `translateX(-${index * 100}%)`;
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
       const newDescription = slides[index].getAttribute('data-description');
       description.classList.remove('active');
       setTimeout(() => {
@@ -235,11 +237,10 @@
     }
 
     function autoSlide() {
-      index = (index + 1) % dots.length;
+      index = (index + 1) % slides.length;
       updateCarousel();
     }
 
-    // Auto-slide every 7 seconds
     setInterval(autoSlide, 7000);
   </script>
 </body>
