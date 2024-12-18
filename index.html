@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carousel Fix with Upload</title>
+  <title>Carousel with GitHub Images</title>
   <style>
     /* General Reset */
     * {
@@ -15,7 +15,7 @@
     body {
       font-family: Arial, Helvetica, sans-serif;
       background-color: #fff;
-      color: #ff4d4d;
+      color: #333;
       line-height: 1.6;
       display: flex;
       flex-direction: column;
@@ -25,28 +25,6 @@
 
     main {
       flex: 1;
-    }
-
-    /* Header */
-    header {
-      background-color: #fff;
-      text-align: center;
-      padding: 15px 0;
-      border-bottom: 2px solid #ff4d4d;
-    }
-
-    header h1 {
-      color: #ff4d4d;
-      font-size: 28px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .header-links a {
-      color: #ff4d4d;
-      text-decoration: none;
-      margin: 0 10px;
-      font-size: 14px;
     }
 
     /* Carousel Container */
@@ -100,116 +78,72 @@
     }
 
     .dot.active {
-      background-color: #ff4d4d;
-    }
-
-    /* Upload Section */
-    .upload-container {
-      margin: 20px auto;
-      text-align: center;
-    }
-
-    .upload-container input[type="file"] {
-      margin-bottom: 10px;
+      background-color: #007BFF;
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <h1>DRAAKULA UNTOLDII</h1>
-    <div class="header-links">
-      <a href="#">Read More</a>
-      <a href="#">Contact Us</a>
-      <a href="#">Donate</a>
-    </div>
-  </header>
-
   <main>
-    <!-- Upload Section -->
-    <div class="upload-container">
-      <h2>Upload Images for Carousel</h2>
-      <input type="file" id="upload" multiple accept="image/*">
-    </div>
-
     <!-- Image Carousel -->
     <div class="carousel-container">
-      <div class="carousel-track" id="carousel-track"></div>
+      <div class="carousel-track" id="carousel-track">
+        <div class="carousel-slide" data-description="Description for Image 1">
+          <img src="https://raw.githubusercontent.com/mordredv1/test-mobile/main/1.png" alt="Image 1">
+        </div>
+        <div class="carousel-slide" data-description="Description for Image 2">
+          <img src="https://raw.githubusercontent.com/mordredv1/test-mobile/main/2.png" alt="Image 2">
+        </div>
+        <div class="carousel-slide" data-description="Description for Image 3">
+          <img src="https://raw.githubusercontent.com/mordredv1/test-mobile/main/3.jpg" alt="Image 3">
+        </div>
+        <div class="carousel-slide" data-description="Description for Image 4">
+          <img src="https://raw.githubusercontent.com/mordredv1/test-mobile/main/4.jpg" alt="Image 4">
+        </div>
+        <div class="carousel-slide" data-description="Description for Image 5">
+          <img src="https://raw.githubusercontent.com/mordredv1/test-mobile/main/5.jpg" alt="Image 5">
+        </div>
+      </div>
     </div>
 
     <!-- Carousel Description -->
     <div class="carousel-description" id="carousel-description">
-      Upload images to see the carousel.
+      Description for Image 1
     </div>
 
     <!-- Navigation Dots -->
-    <div class="carousel-dots" id="carousel-dots"></div>
+    <div class="carousel-dots" id="carousel-dots">
+      <span class="dot active" data-index="0"></span>
+      <span class="dot" data-index="1"></span>
+      <span class="dot" data-index="2"></span>
+      <span class="dot" data-index="3"></span>
+      <span class="dot" data-index="4"></span>
+    </div>
   </main>
 
   <script>
     const track = document.getElementById('carousel-track');
-    const dotsContainer = document.getElementById('carousel-dots');
+    const dots = document.querySelectorAll('.dot');
     const description = document.getElementById('carousel-description');
-    const upload = document.getElementById('upload');
+    const slides = document.querySelectorAll('.carousel-slide');
 
     let index = 0;
-    const images = [];
-    const descriptions = [
-      "Image 1 Description",
-      "Image 2 Description",
-      "Image 3 Description",
-      "Image 4 Description",
-      "Image 5 Description",
-    ];
 
-    // Update Carousel
     function updateCarousel() {
       track.style.transform = `translateX(-${index * 100}%)`;
-      document.querySelectorAll('.dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
-      description.textContent = descriptions[index] || "No description available.";
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+      description.textContent = slides[index].getAttribute('data-description');
     }
 
-    // Create Carousel Slide
-    function createSlide(src, i) {
-      const slide = document.createElement('div');
-      slide.className = 'carousel-slide';
-      slide.innerHTML = `<img src="${src}" alt="Image ${i + 1}">`;
-      track.appendChild(slide);
-
-      const dot = document.createElement('span');
-      dot.className = 'dot';
-      dot.dataset.index = i;
+    dots.forEach((dot) => {
       dot.addEventListener('click', () => {
-        index = i;
+        index = parseInt(dot.getAttribute('data-index'));
         updateCarousel();
-      });
-      dotsContainer.appendChild(dot);
-    }
-
-    // Handle Upload
-    upload.addEventListener('change', (event) => {
-      const files = Array.from(event.target.files);
-      files.forEach((file, i) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          images.push(e.target.result);
-          createSlide(e.target.result, images.length - 1);
-          if (images.length === 1) {
-            updateCarousel(); // Initialize carousel for the first image
-          }
-        };
-        reader.readAsDataURL(file);
       });
     });
 
-    // Auto Slide
     setInterval(() => {
-      if (images.length > 0) {
-        index = (index + 1) % images.length;
-        updateCarousel();
-      }
+      index = (index + 1) % slides.length;
+      updateCarousel();
     }, 7000);
   </script>
 </body>
