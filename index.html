@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carousel Fix</title>
+  <title>Carousel Fix with Upload</title>
   <style>
     /* General Reset */
     * {
@@ -20,7 +20,7 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      padding: 0 30px; /* Increased left and right spacing */
+      padding: 0 30px;
     }
 
     main {
@@ -32,7 +32,7 @@
       background-color: #fff;
       text-align: center;
       padding: 15px 0;
-      border-bottom: 2px solid #ff4d4d; /* Red line below the header */
+      border-bottom: 2px solid #ff4d4d;
     }
 
     header h1 {
@@ -49,62 +49,30 @@
       font-size: 14px;
     }
 
-    /* Aspect Ratio Container (Video and Carousel) */
-    .aspect-ratio-box {
-      width: 100%;
-      max-width: 700px;
-      margin: 20px auto;
-      position: relative;
-      background-color: #000;
-      padding-top: 57.14%; /* Maintains 700x400 ratio */
-      overflow: hidden;
-    }
-
-    .aspect-ratio-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    video, .carousel-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain; /* Adds black bars if needed */
-      background-color: #000;
-    }
-
-    /* Video Description */
-    .video-description {
-      text-align: center;
-      color: #666;
-      font-size: 16px;
-      margin: 20px 0;
-    }
-
     /* Carousel Container */
     .carousel-container {
       position: relative;
       width: 100%;
       max-width: 700px;
       margin: 20px auto;
-      overflow: hidden; /* Hide extra slides */
+      overflow: hidden;
     }
 
     .carousel-track {
       display: flex;
-      transition: transform 0.5s ease-in-out; /* Smooth sliding */
+      transition: transform 0.5s ease-in-out;
     }
 
     .carousel-slide {
-      flex: 0 0 100%; /* One slide visible at a time */
+      flex: 0 0 100%;
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: auto;
     }
 
     /* Carousel Description */
@@ -135,14 +103,14 @@
       background-color: #ff4d4d;
     }
 
-    /* Bottom Bar */
-    .bottom-bar {
-      background-color: #fff;
-      color: #ff4d4d;
-      padding: 10px;
+    /* Upload Section */
+    .upload-container {
+      margin: 20px auto;
       text-align: center;
-      font-size: 12px;
-      margin-top: 20px; /* Space above the bottom bar */
+    }
+
+    .upload-container input[type="file"] {
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -158,85 +126,91 @@
   </header>
 
   <main>
-    <!-- Video Section -->
-    <div class="aspect-ratio-box">
-      <div class="aspect-ratio-content">
-        <video autoplay muted loop playsinline>
-          <source src="your-video-file.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
-
-    <!-- Video Description -->
-    <div class="video-description">
-      is yvelam sheizizga, magram dedistyvna gauchina suyvelas
+    <!-- Upload Section -->
+    <div class="upload-container">
+      <h2>Upload Images for Carousel</h2>
+      <input type="file" id="upload" multiple accept="image/*">
     </div>
 
     <!-- Image Carousel -->
-    <div class="aspect-ratio-box">
-      <div class="aspect-ratio-content">
-        <div class="carousel-container">
-          <div class="carousel-track" id="carousel-track">
-            <div class="carousel-slide" data-description="Qreba chndeba, tynaurobs, kbens, ibrdzvis, ra chemi yle ginat meti">
-              <img src="image1.jpg" alt="Image 1">
-            </div>
-            <div class="carousel-slide" data-description="Damaleine trawi eshmakoo">
-              <img src="image2.jpg" alt="Image 2">
-            </div>
-            <div class="carousel-slide" data-description="Daalieee, draakulaaa, traaaawiiii">
-              <img src="image3.jpg" alt="Image 3">
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="carousel-container">
+      <div class="carousel-track" id="carousel-track"></div>
     </div>
 
     <!-- Carousel Description -->
     <div class="carousel-description" id="carousel-description">
-      Qreba chndeba, tynaurobs, kbens, ibrdzvis, ra chemi yle ginat meti
+      Upload images to see the carousel.
     </div>
 
     <!-- Navigation Dots -->
-    <div class="carousel-dots">
-      <span class="dot active" data-index="0"></span>
-      <span class="dot" data-index="1"></span>
-      <span class="dot" data-index="2"></span>
-    </div>
+    <div class="carousel-dots" id="carousel-dots"></div>
   </main>
-
-  <!-- Bottom Bar -->
-  <div class="bottom-bar">
-    <p>&copy; 2024 Resist.ge. All rights reserved.</p>
-  </div>
 
   <script>
     const track = document.getElementById('carousel-track');
-    const dots = document.querySelectorAll('.dot');
+    const dotsContainer = document.getElementById('carousel-dots');
     const description = document.getElementById('carousel-description');
-    const slides = document.querySelectorAll('.carousel-slide');
+    const upload = document.getElementById('upload');
 
     let index = 0;
+    const images = [];
+    const descriptions = [
+      "Image 1 Description",
+      "Image 2 Description",
+      "Image 3 Description",
+      "Image 4 Description",
+      "Image 5 Description",
+    ];
 
+    // Update Carousel
     function updateCarousel() {
       track.style.transform = `translateX(-${index * 100}%)`;
-      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
-      description.textContent = slides[index].getAttribute('data-description');
+      document.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+      description.textContent = descriptions[index] || "No description available.";
     }
 
-    function autoSlide() {
-      index = (index + 1) % slides.length;
-      updateCarousel();
-    }
+    // Create Carousel Slide
+    function createSlide(src, i) {
+      const slide = document.createElement('div');
+      slide.className = 'carousel-slide';
+      slide.innerHTML = `<img src="${src}" alt="Image ${i + 1}">`;
+      track.appendChild(slide);
 
-    dots.forEach((dot) => {
+      const dot = document.createElement('span');
+      dot.className = 'dot';
+      dot.dataset.index = i;
       dot.addEventListener('click', () => {
-        index = parseInt(dot.getAttribute('data-index'));
+        index = i;
         updateCarousel();
+      });
+      dotsContainer.appendChild(dot);
+    }
+
+    // Handle Upload
+    upload.addEventListener('change', (event) => {
+      const files = Array.from(event.target.files);
+      files.forEach((file, i) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          images.push(e.target.result);
+          createSlide(e.target.result, images.length - 1);
+          if (images.length === 1) {
+            updateCarousel(); // Initialize carousel for the first image
+          }
+        };
+        reader.readAsDataURL(file);
       });
     });
 
-    setInterval(autoSlide, 7000);
+    // Auto Slide
+    setInterval(() => {
+      if (images.length > 0) {
+        index = (index + 1) % images.length;
+        updateCarousel();
+      }
+    }, 7000);
   </script>
 </body>
 </html>
