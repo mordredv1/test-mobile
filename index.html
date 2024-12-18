@@ -20,7 +20,7 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      padding: 0 10px; /* Absolute margin */
+      padding: 0 10px;
     }
 
     main {
@@ -49,19 +49,20 @@
       font-size: 14px;
     }
 
-    /* Aspect Ratio Container */
+    /* Aspect Ratio Container (Video and Carousel) */
     .aspect-ratio-box {
       width: 100%;
       max-width: 700px;
-      margin: 20px auto; /* Absolute margin for spacing */
+      margin: 20px auto;
       background-color: #000;
       position: relative;
+      overflow: hidden; /* Ensures no overflow */
     }
 
     .aspect-ratio-box::before {
       content: "";
       display: block;
-      padding-top: 57.14%; /* 700x400 aspect ratio */
+      padding-top: 57.14%; /* 700x400 aspect ratio (400/700 * 100) */
     }
 
     .aspect-ratio-content {
@@ -78,7 +79,8 @@
     video, .carousel-slide img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Maintain aspect ratio with black bars */
+      object-fit: contain; /* Ensures black bars and no stretching */
+      background-color: #000;
     }
 
     /* Video Description */
@@ -86,20 +88,22 @@
       text-align: center;
       color: #666;
       font-size: 16px;
-      margin: 20px auto; /* Absolute margin */
+      margin: 20px 0;
     }
 
     /* Carousel */
     .carousel-container {
-      overflow: hidden;
-      margin: 20px auto; /* Absolute margin */
+      width: 100%;
       max-width: 700px;
+      margin: 20px auto;
+      background-color: #000;
+      overflow: hidden; /* Prevents side overflow */
       position: relative;
     }
 
     .carousel-track {
       display: flex;
-      transition: transform 0.5s ease-in-out;
+      transition: transform 0.5s ease-in-out; /* Smooth transitions */
     }
 
     .carousel-slide {
@@ -107,14 +111,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #000;
-    }
-
-    .carousel-slide img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain; /* Black bars when necessary */
+      background-color: #000; /* Black background */
     }
 
     /* Carousel Description */
@@ -122,12 +119,7 @@
       text-align: center;
       font-size: 16px;
       color: #666;
-      margin: 20px auto; /* Absolute margin for top */
-    }
-
-    /* Dynamic Space Below Description */
-    .dynamic-space {
-      flex: 1; /* Ensures proportional dynamic spacing */
+      margin: 20px 0;
     }
 
     /* Navigation Dots */
@@ -212,8 +204,12 @@
       Qreba chndeba, tynaurobs, kbens, ibrdzvis, ra chemi yle ginat meti
     </div>
 
-    <!-- Dynamic Space -->
-    <div class="dynamic-space"></div>
+    <!-- Navigation Dots -->
+    <div class="carousel-dots">
+      <span class="dot active" data-index="0"></span>
+      <span class="dot" data-index="1"></span>
+      <span class="dot" data-index="2"></span>
+    </div>
   </main>
 
   <!-- Bottom Bar -->
@@ -231,6 +227,7 @@
 
     function updateCarousel() {
       track.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
       description.textContent = slides[index].getAttribute('data-description');
     }
 
@@ -238,6 +235,13 @@
       index = (index + 1) % slides.length;
       updateCarousel();
     }
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        index = parseInt(dot.getAttribute('data-index'));
+        updateCarousel();
+      });
+    });
 
     setInterval(autoSlide, 7000);
   </script>
